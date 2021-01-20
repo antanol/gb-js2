@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ДЗ 1</title>
+    
+    <!-- Стили подключаем через лоадеры вебпака -->
+    <!-- <link rel="stylesheet" href="style/main.css"> -->
+    <!-- Подключение font-awesome -->
+    <script src="https://use.fontawesome.com/3a05ab18ac.js"></script>
+</head>
+<body>
+    <div id="task2" class="tasks">
+        <div class="texttasks">
+            <h3>Задача</h3>
+            Реализовать модуль корзины. 
+            Создать блок товаров и блок корзины. 
+            У каждого товара есть кнопка «Купить», при нажатии на которую происходит добавление имени и цены товара в блок корзины. 
+            Корзина должна уметь считать общую сумму заказа.
+        </div>
+        <div class="answers">
+            <h3>Результат</h3>
+                <header>
+                    <h1>Logo</h1>
+                    <div class="basket">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <div class="basketContent"></div>
+                        <div class="basketList"></div>
+                    </div>
+                </header>
+                <div id="catalog"></div>
+        </div>
+    </div>
+
+    <script src="bundle.js"></script>
+</body>
+</html>
