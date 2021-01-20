@@ -6,7 +6,7 @@ let basket = {
     amount: 0,
     checkAmount: function(num){
         let temp_count = 0;
-        for(i=0;i<this.content.length;i++){
+        for (let i=0; i<this.content.length; i++){
             temp_count += num * this.content[i].price;
         }
 
@@ -116,7 +116,7 @@ document.getElementById("catalog").append(newCatalog);
 let btnsMinus = document.querySelectorAll('.btnMinus'),
     btnsPlus = document.querySelectorAll('.btnPlus'),
     btnsBuy = document.querySelectorAll('.btnBuyIt');
-for (btn of btnsMinus){
+for (let btn of btnsMinus){
     btn.addEventListener('click', (event)=>{
         if (document.querySelector(`input[data-id="${event.target.dataset.id}"]`).value > 1){
             document.querySelector(`input[data-id="${event.target.dataset.id}"]`).value--;
@@ -124,13 +124,13 @@ for (btn of btnsMinus){
     });
 }
 
-for (btn of btnsPlus){
+for (let btn of btnsPlus){
     btn.addEventListener('click', (event)=>{
         document.querySelector(`input[data-id="${event.target.dataset.id}"]`).value++;
     });
 }
 
-for (btn of btnsBuy){
+for (let btn of btnsBuy){
     btn.addEventListener('click', (event)=>{
         Products[event.target.dataset.id].num += Number(document.querySelector(`input[data-id="${event.target.dataset.id}"]`).value);
         Products[event.target.dataset.id].putInBasket();

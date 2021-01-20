@@ -13,7 +13,6 @@ body{
     grid-template-columns: repeat(2, 1fr);
 
     .texttasks,
-    .solutions,
     .answers{
         @extend %main_subtask;
 
@@ -22,18 +21,20 @@ body{
         }
     }
 
+    li{
+        margin-bottom: 10px;
+    }
+
+    summary{
+        color: rgb(69, 141, 170);
+    }
+
     .answers{
         grid-column-start: 2;
         grid-row-start: 1;
         grid-row-end: 3;
     }
 
-    input{
-        width: 60px;
-    }
-}
-
-#task2{
     header{
         background-color: darkred;
         color: white;
