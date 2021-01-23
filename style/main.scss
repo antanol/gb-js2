@@ -10,7 +10,7 @@ body{
 
 .tasks{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 2fr;
 
     .texttasks,
     .answers{
@@ -25,7 +25,12 @@ body{
         margin-bottom: 10px;
     }
 
+    details{
+        font-style: italic;
+    }
+
     summary{
+        font-style: normal;
         color: rgb(69, 141, 170);
     }
 
@@ -144,10 +149,6 @@ body{
         .btnBuyIt{
             width: initial;
         }
-    }
-
-    .productElem:first-child{
-        margin-left: 0;
     }
 
     .fa-plus-circle{

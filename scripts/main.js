@@ -82,7 +82,6 @@ const renderProduct = (elem = Products[0], i = 0) => {
 };
 
 const renderPage = (list) => {
-    console.log(list);
     const newCatalog = list.map((item, index) => renderProduct(item, index));
     for (let elem of newCatalog){
         document.getElementById("catalog").innerHTML += elem;
