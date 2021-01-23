@@ -1,29 +1,6 @@
 // чтобы sass-loader корректно работал, указываем путь до файла scss
 import '../style/main.scss';
 
-function generateCatalog() {
-    let newCatalog = new DocumentFragment();
-    for (let i=0; i<Products.length; i++){
-        let prodElem = document.createElement("div"),
-            prodsImg = document.createElement("img");
-
-        prodElem.classList.add("productElem");
-        // prodsImg.setAttribute("src", `img/${i+1}.jpg`);
-        prodsImg.setAttribute("src", `http://placehold.it/150x200`);
-
-        prodElem.innerHTML = `<h4>${Products[i].name}</h4>
-                                <div class="price">${Products[i].price} рублей</div>
-                                <button data-id="${i}" class="btnMinus">-</button>
-                                <input data-id="${i}" type="number" name="nunProd" value="1">
-                                <button data-id="${i}" class="btnPlus">+</button><br>
-                                <button data-id="${i}" class="btnBuyIt">Купить</button>`;
-        prodElem.insertAdjacentElement("afterbegin", prodsImg);
-
-        newCatalog.append(prodElem);
-    }
-    document.getElementById("catalog").append(newCatalog);
-}
-
 function putInBasket(){
     let alreadyExist = basket.content.find(item => {
         if (item.name == this.name){
@@ -48,7 +25,7 @@ function putInBasket(){
 let basket = {
     content: [],
     amount: 0,
-    checkAmount: function(num){
+    checkAmount: (num) =>{
         let temp_count = 0;
         for (let i=0; i<this.content.length; i++){
             temp_count += num * this.content[i].price;
@@ -83,14 +60,35 @@ let Products = [
         id: 4,
         price: 50,
         num: 0
-    }];
+}];
 
 // стартовое состояние 
 if (basket.amount == 0){
     document.querySelector(".basketContent").innerHTML = `0 рублей`;
     document.querySelector(".basketList").innerHTML = `Ваша корзина пуста`;
 }
-generateCatalog();
+
+//Функция для формирования верстки каждого товара
+const renderProduct = (elem = Products[0], i = 0) => {
+    return `<div class="productElem">
+                <img src="http://placehold.it/150x200">
+                <h4>${elem.name}</h4>
+                <div class="price">${elem.price} рублей</div>
+                <button data-id="${i}" class="btnMinus">-</button>
+                <input data-id="${i}" type="number" name="nunProd" value="1">
+                <button data-id="${i}" class="btnPlus">+</button><br>
+                <button data-id="${i}" class="btnBuyIt">Купить</button>
+            </div>`;
+};
+
+const renderPage = (list) => {
+    console.log(list);
+    const newCatalog = list.map((item, index) => renderProduct(item, index));
+    for (let elem of newCatalog){
+        document.getElementById("catalog").innerHTML += elem;
+    }
+};
+renderPage(Products);
 
 // обработка кнопок
 let btnsMinus = document.querySelectorAll('.btnMinus'),
@@ -113,6 +111,8 @@ for (let btn of btnsPlus){
 for (let btn of btnsBuy){
     btn.addEventListener('click', (event)=>{
         Products[event.target.dataset.id].num += Number(document.querySelector(`input[data-id="${event.target.dataset.id}"]`).value);
+        // ранее функция была в каждом объекте. Изучим конструкторы - запихну в него.
+        // Но т.к. в объекте this относился к объекту, здесь пришлось изменить контекст с помощью бинда.
         let putThis = putInBasket.bind(Products[event.target.dataset.id]);
         putThis();
     });
