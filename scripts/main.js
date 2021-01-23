@@ -1,6 +1,50 @@
 // чтобы sass-loader корректно работал, указываем путь до файла scss
 import '../style/main.scss';
 
+function generateCatalog() {
+    let newCatalog = new DocumentFragment();
+    for (let i=0; i<Products.length; i++){
+        let prodElem = document.createElement("div"),
+            prodsImg = document.createElement("img");
+
+        prodElem.classList.add("productElem");
+        // prodsImg.setAttribute("src", `img/${i+1}.jpg`);
+        prodsImg.setAttribute("src", `http://placehold.it/150x200`);
+
+        prodElem.innerHTML = `<h4>${Products[i].name}</h4>
+                                <div class="price">${Products[i].price} рублей</div>
+                                <button data-id="${i}" class="btnMinus">-</button>
+                                <input data-id="${i}" type="number" name="nunProd" value="1">
+                                <button data-id="${i}" class="btnPlus">+</button><br>
+                                <button data-id="${i}" class="btnBuyIt">Купить</button>`;
+        prodElem.insertAdjacentElement("afterbegin", prodsImg);
+
+        newCatalog.append(prodElem);
+    }
+    document.getElementById("catalog").append(newCatalog);
+}
+
+function putInBasket(){
+    let alreadyExist = basket.content.find(item => {
+        if (item.name == this.name){
+            return true;
+        }
+    });
+    if (!alreadyExist){
+        basket.content.push(this);
+    };
+    if (!document.querySelector(".basketElem")) {
+        document.querySelector(".basketList").innerHTML = `<div class="basketElem"><img src="http://placehold.it/50x50">
+            <b>${this.name}</b>
+            <div class="price">${this.num}шт. на ${this.price*this.num} рублей</div></div>`;
+    }else{
+        document.querySelector(".basketList").innerHTML += `<div class="basketElem"><img src="http://placehold.it/50x50">
+            <b>${this.name}</b>
+            <div class="price">${this.num}шт. на ${this.price*this.num} рублей</div></div>`;
+    }
+    basket.checkAmount(this.num);
+}
+
 let basket = {
     content: [],
     amount: 0,
@@ -17,102 +61,38 @@ let basket = {
 
 let Products = [
     {
-        name: "Варежки",
+        name: 'Notebook',
         id: 1,
-        price: 150,
-        num: 0,
-        putInBasket: function(){
-            basket.content.push(this);
-            if (!document.querySelector(".basketElem")) {
-                document.querySelector(".basketList").innerHTML = `<div class="basketElem"><img src="http://placehold.it/50x50">
-                    <b>${this.name}</b>
-                    <div class="price">${this.num}шт. на ${this.price*this.num} рублей</div></div>`;
-            }else{
-                document.querySelector(".basketList").innerHTML += `<div class="basketElem"><img src="http://placehold.it/50x50">
-                    <b>${this.name}</b>
-                    <div class="price">${this.num}шт. на ${this.price*this.num} рублей</div></div>`;
-            }
-            basket.checkAmount(this.num);
-        }
+        price: 2000,
+        num: 0
     },
     {
-        name: "Фикус",
+        name: 'Mouse',
         id: 2,
-        price: 3000,
-        num: 0,
-        putInBasket: function(){
-            basket.content.push(this);
-            if (!document.querySelector(".basketElem")) {
-                document.querySelector(".basketList").innerHTML = `<div class="basketElem"><img src="http://placehold.it/50x50">
-                    <b>${this.name}</b>
-                    <div class="price">${this.num}шт. на ${this.price*this.num} рублей</div></div>`;
-            }else{
-                document.querySelector(".basketList").innerHTML += `<div class="basketElem"><img src="http://placehold.it/50x50">
-                    <b>${this.name}</b>
-                    <div class="price">${this.num}шт. на ${this.price*this.num} рублей</div></div>`;
-            }
-            basket.checkAmount(this.num);
-        }
+        price: 20,
+        num: 0
     },
     {
-        name: "Пальма",
+        name: 'Keyboard',
         id: 3,
-        price: 15000,
-        num: 0,
-        putInBasket: function(){
-            let exist_in_basket = false,
-                position_in_basket = -1;
-            for (let i=0; i<basket.content.length;i++){
-                if (basket.content[i].id==this.id){
-                    exist_in_basket = true;
-                    position_in_basket = i;
-                }
-            }
-            if (exist_in_basket){
-                // basket.content[position_in_basket].num += this.num;
-                // basket.checkAmount();
-            }else{
-                basket.content.push(this);
-            }
-            if (!document.querySelector(".basketElem")) {
-                document.querySelector(".basketList").innerHTML = `<div class="basketElem"><img src="http://placehold.it/50x50">
-                    <b>${this.name}</b>
-                    <div class="price">${this.num}шт. на ${this.price*this.num} рублей</div></div>`;
-            }else{
-                document.querySelector(".basketList").innerHTML += `<div class="basketElem"><img src="http://placehold.it/50x50">
-                    <b>${this.name}</b>
-                    <div class="price">${this.num}шт. на ${this.price*this.num} рублей</div></div>`;
-            }
-            basket.checkAmount(this.num);
-        }
+        price: 200,
+        num: 0
+    },
+    {
+        name: 'Gamepad',
+        id: 4,
+        price: 50,
+        num: 0
     }];
 
+// стартовое состояние 
 if (basket.amount == 0){
     document.querySelector(".basketContent").innerHTML = `0 рублей`;
     document.querySelector(".basketList").innerHTML = `Ваша корзина пуста`;
 }
+generateCatalog();
 
-let newCatalog = new DocumentFragment();
-for (let i=0; i<Products.length; i++){
-    let prodElem = document.createElement("div"),
-        prodsImg = document.createElement("img");
-
-    prodElem.classList.add("productElem");
-    // prodsImg.setAttribute("src", `img/${i+1}.jpg`);
-    prodsImg.setAttribute("src", `http://placehold.it/150x200`);
-
-    prodElem.innerHTML = `<h4>${Products[i].name}</h4>
-                            <div class="price">${Products[i].price} рублей</div>
-                            <button data-id="${i}" class="btnMinus">-</button>
-                            <input data-id="${i}" type="number" name="nunProd" value="1">
-                            <button data-id="${i}" class="btnPlus">+</button><br>
-                            <button data-id="${i}" class="btnBuyIt">Купить</button>`;
-    prodElem.insertAdjacentElement("afterbegin", prodsImg);
-
-    newCatalog.append(prodElem);
-}
-document.getElementById("catalog").append(newCatalog);
-
+// обработка кнопок
 let btnsMinus = document.querySelectorAll('.btnMinus'),
     btnsPlus = document.querySelectorAll('.btnPlus'),
     btnsBuy = document.querySelectorAll('.btnBuyIt');
@@ -133,7 +113,8 @@ for (let btn of btnsPlus){
 for (let btn of btnsBuy){
     btn.addEventListener('click', (event)=>{
         Products[event.target.dataset.id].num += Number(document.querySelector(`input[data-id="${event.target.dataset.id}"]`).value);
-        Products[event.target.dataset.id].putInBasket();
+        let putThis = putInBasket.bind(Products[event.target.dataset.id]);
+        putThis();
     });
 }
 
